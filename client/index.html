@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>day-to-do</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Page description">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="content">
+  <header>
+        <h1>Today</h1>
+  </header>
+      <div class="todo__list-container">
+          <h3 class="todo__group_title">TO-DO</h3>
+        <div class="todo__list">
+          <div class="todo__item done_item" task-id="1">
+            <label>
+              <input type="checkbox" />
+  Create icons for a dashboard 
+            </label>  
+          </div>
+          <div class="todo__item">
+            <label>
+              <input type="checkbox" />
+              Prepare a design presentation
+            </label>  
+          </div>
+        
+          <div class="todo__item">
+            <label>
+              <input type="checkbox" />
+              Stretch for 15 minutes
+            </label>  
+          </div>
+          <div class="todo__item">
+            <label>
+              <input type="checkbox" />
+              Plan your meal
+            </label>  
+          </div>
+          <div class="todo__item">
+            <label>
+              <input type="checkbox" />
+              Review daily goals before sleeping. Add some new if time permits
+            </label>  
+          </div>
+          <div class="todo__item">
+            <label>
+              <input type="checkbox" />
+              Water indoor plants
+            </label>  
+          </div>       
+          </div>
+        </div>
+      <div class="done__list-container">
+        <h3 class="todo__group_title">COMPLETED</h3>
+        <div class="done__list">
+          <div class="todo__item todo__item_do ">
+            <label>
+              <input type="checkbox" />
+              Create icons for a dashboard 
+            </label>  
+          </div>
+        <div class="todo__item todo__item_do ">
+            <label>
+              <input type="checkbox" />
+              Water indoor plants
+            </label>  
+          </div>
+        </div>
+      </div>
+
+  
+  </div>
+  <form class="todo__form">
+    <input type="text" name="todo__task" value="" placeholder="Write a task...">
+    <button type="submit">Add</button>
+  </form>             
+  <script src="scripts/index.js" type="module"></script>
+</body>
+</html>
