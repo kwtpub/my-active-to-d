@@ -85,9 +85,11 @@ export async function addTodo(title) {
 
 const todo_form = document.querySelector('.todo__form')
 const todo_input = document.querySelector('.todo__input')
-
+const todo_button = document.querySelector('.todo_button')
+todo_form.addEventListener('submit', (e) => e.preventDefault())
+todo_button.addEventListener('click', headerAddTask)
 function headerAddTask(event) {
-  event.preventDefalt()
+
 }
 console.log(todo_form)
 console.log(todo_input)

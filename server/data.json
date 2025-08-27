@@ -2,12 +2,12 @@
   {
     "id": 1,
     "title": "Create icons for a dashboard ",
-    "done": true
+    "done": false
   },
   {
     "id": 2,
     "title": "Prepare a design presentation",
-    "done": true
+    "done": false
   },
   {
     "id": 3,
@@ -22,6 +22,6 @@
   {
     "id": 5,
     "title": " Review daily goals before sleeping. Add some new if time permits",
-    "done": false
+    "done": true
   }
 ]
