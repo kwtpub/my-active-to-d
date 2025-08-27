@@ -46,6 +46,77 @@ const server = http.createServer((req, res) => {
       }
     });
   }
+else if (req.method === "POST" && req.url === "/todos") {
+  let body = "";
+  
+  req.on("data", chunk => {
+    body += chunk.toString();
+  });
+
+  req.on("end", () => {
+    try {
+      const newTodo = JSON.parse(body);
+      
+      // Читаем текущие задачи
+      fs.readFile(path.join(__dirname, "data.json"), "utf-8", (err, data) => {
+        if (err) {
+          res.writeHead(500, {
+            "Content-Type": "application/json",
+            ...corsHeaders
+          });
+          res.end(JSON.stringify({ error: "Не удалось прочитать файл" }));
+          return;
+        }
+
+        try {
+          const todos = JSON.parse(data);
+          
+          // Генерируем новый ID (максимальный ID + 1)
+          const newId = Math.max(...todos.map(t => t.id), 0) + 1;
+          
+          // Создаем новую задачу
+          const todoToAdd = {
+            id: newId,
+            title: newTodo.title,
+            done: false
+          };
+
+          // Добавляем в массив
+          todos.push(todoToAdd);
+
+          // Сохраняем обратно в файл
+          fs.writeFile(path.join(__dirname, "data.json"), JSON.stringify(todos, null, 2), (err) => {
+            if (err) {
+              res.writeHead(500, {
+                "Content-Type": "application/json",
+                ...corsHeaders
+              });
+              res.end(JSON.stringify({ error: "Не удалось сохранить файл" }));
+            } else {
+              res.writeHead(201, {
+                "Content-Type": "application/json",
+                ...corsHeaders
+              });
+              res.end(JSON.stringify(todoToAdd)); // Возвращаем созданную задачу
+            }
+          });
+        } catch (error) {
+          res.writeHead(400, {
+            "Content-Type": "application/json",
+            ...corsHeaders
+          });
+          res.end(JSON.stringify({ error: "Неверный формат данных в файле" }));
+        }
+      });
+    } catch (error) {
+      res.writeHead(400, {
+        "Content-Type": "application/json",
+        ...corsHeaders
+      });
+      res.end(JSON.stringify({ error: "Неверный JSON формат" }));
+    }
+  });
+}
 
   // POST /todos - сохранение всех задач
   else if (req.method === "POST" && req.url === "/todos") {

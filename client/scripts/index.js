@@ -62,9 +62,35 @@ function handleCheckboxClick(event) {
   }
 }
 
-function addTask() {
-
+export async function addTodo(title) {
+  try {
+    const response = await fetch('http://localhost:3000/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ title: title }) // Отправляем только title
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return await response.json(); // Возвращаем созданную задачу
+  } catch (error) {
+    console.error('Ошибка добавления задачи:', error);
+    throw error;
+  }
 }
+
+const todo_form = document.querySelector('.todo__form')
+const todo_input = document.querySelector('.todo__input')
+
+function headerAddTask(event) {
+  event.preventDefalt()
+}
+console.log(todo_form)
+console.log(todo_input)
 function rerender() {
   renderLists();
 };
