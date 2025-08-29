@@ -29,6 +29,9 @@
               <input type="checkbox" />
               Prepare a design presentation
             </label>  
+            <button class="delete__button" onclick="hendlerDeleteTodo()">
+              <img src="./assets/icons8-trash-can-96.png" alt="Кнопка удаления задачи">
+            </button>
           </div>
         
           <div class="todo__item">
@@ -77,10 +80,15 @@
 
   
   </div>
-  <form class="todo__form">
-    <input class="todo__input" type="text" name="todo__task" value="" placeholder="Write a task...">
-    <button  class='todo_button'>Add</button>
-  </form>             
+  <form class="todo__form" onsubmit="headerAddTask(event)">
+    <input 
+        class="todo__input" 
+        type="text" 
+        name="title"  
+        placeholder="Write a task...">
+    <button type="submit" class='todo_button' name="title">Add</button>
+  </form>        
+
   <script src="scripts/index.js" type="module"></script>
 </body>
 </html>

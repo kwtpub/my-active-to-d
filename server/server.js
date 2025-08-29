@@ -217,58 +217,77 @@ else if (req.method === "POST" && req.url === "/todos") {
     });
   }
 
-  // DELETE /todos/:id - удаление задачи
-  else if (req.method === "DELETE" && req.url.startsWith("/todos/")) {
-    const id = req.url.split("/")[2];
+// После POST обработчика добавьте:
+else if (req.method === "DELETE" && req.url.startsWith("/todos/")) {
+  const id = req.url.split("/")[2]; // получаем ID из URL
+  console.log('DELETE request for ID:', id);
 
-    fs.readFile(path.join(__dirname, "data.json"), "utf-8", (err, data) => {
-      if (err) {
-        res.writeHead(500, {
+  fs.readFile(path.join(__dirname, "data.json"), "utf-8", (err, data) => {
+    if (err) {
+      res.writeHead(500, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      });
+      res.end(JSON.stringify({ error: "Не удалось прочитать файл" }));
+      return;
+    }
+
+    try {
+      const todos = JSON.parse(data);
+      
+      // Ищем задачу (сравниваем как строки)
+      const todoIndex = todos.findIndex(todo => 
+        todo.id.toString() === id.toString()
+      );
+
+      console.log('Found index:', todoIndex, 'Total tasks:', todos.length);
+
+      if (todoIndex === -1) {
+        res.writeHead(404, {
           "Content-Type": "application/json",
-          ...corsHeaders
+          "Access-Control-Allow-Origin": "*"
         });
-        res.end(JSON.stringify({ error: "Не удалось прочитать файл" }));
+        res.end(JSON.stringify({ 
+          error: "Задача не найдена",
+          requestedId: id,
+          availableIds: todos.map(t => t.id)
+        }));
         return;
       }
 
-      try {
-        const todos = JSON.parse(data);
-        const filteredTodos = todos.filter(todo => todo.id !== id);
+      // Удаляем задачу из массива
+      const deletedTodo = todos.splice(todoIndex, 1)[0];
+      console.log('Deleted task:', deletedTodo);
 
-        if (todos.length === filteredTodos.length) {
-          res.writeHead(404, {
+      // Сохраняем обновленный массив
+      fs.writeFile(path.join(__dirname, "data.json"), JSON.stringify(todos, null, 2), (err) => {
+        if (err) {
+          res.writeHead(500, {
             "Content-Type": "application/json",
-            ...corsHeaders
+            "Access-Control-Allow-Origin": "*"
           });
-          res.end(JSON.stringify({ error: "Задача не найдена" }));
-          return;
+          res.end(JSON.stringify({ error: "Не удалось сохранить файл" }));
+        } else {
+          res.writeHead(200, {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          });
+          res.end(JSON.stringify({ 
+            success: true, 
+            message: "Задача удалена",
+            deleted: deletedTodo 
+          }));
         }
-
-        fs.writeFile(path.join(__dirname, "data.json"), JSON.stringify(filteredTodos, null, 2), (err) => {
-          if (err) {
-            res.writeHead(500, {
-              "Content-Type": "application/json",
-              ...corsHeaders
-            });
-            res.end(JSON.stringify({ error: "Не удалось обновить файл" }));
-          } else {
-            res.writeHead(200, {
-              "Content-Type": "application/json",
-              ...corsHeaders
-            });
-            res.end(JSON.stringify({ success: true, message: "Задача удалена" }));
-          }
-        });
-      } catch (error) {
-        res.writeHead(400, {
-          "Content-Type": "application/json",
-          ...corsHeaders
-        });
-        res.end(JSON.stringify({ error: "Неверный JSON формат" }));
-      }
-    });
-  }
-
+      });
+    } catch (error) {
+      res.writeHead(400, {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      });
+      res.end(JSON.stringify({ error: "Неверный JSON формат" }));
+    }
+  });
+}
   // Все остальные маршруты
   else {
     res.writeHead(404, {

@@ -26,6 +26,7 @@ header h1 {
 }
 .content {
   padding: 56px 22px;
+  width: 100%;
 }
 .todo__group_title {
   font-weight: 600;
@@ -44,6 +45,7 @@ color: #d1a28b;
   margin-top: 16px;
   margin-bottom: 16px;
   display: flex;
+  position: relative;
 }
 .todo__item label {
   display: flex;
@@ -79,7 +81,6 @@ input[type="checkbox"]:checked {
   bottom: 20px;
   display: flex;
   align-items: center;
-
 }
 .todo__form input {
   border-radius: 12px;
@@ -104,7 +105,26 @@ color: #222;
   border:none;
   background: #393433;
   font-weight: 500;
-font-size: 18px;
-color: #f9f5f4;
+  font-size: 18px;
+  color: #f9f5f4;
+}
 
+.delete__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 25px;
+  width: 35px;
+  border: none;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #f9f5f4;
+  cursor:pointer;
+}
+.delete__button img {
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
 }

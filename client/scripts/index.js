@@ -1,6 +1,5 @@
 "use strict";
-import { getTodos, setTodos, updateTodo } from "./module/storage.js";
-
+import { getTodos, setTodos, updateTodo, addTodo, deleteTodo} from "./module/storage.js";
 
 const page = {
   todo: {
@@ -12,8 +11,6 @@ const page = {
   }
 }
 const tasks =  await getTodos();
-
-
 
 function renderLists() {
 
@@ -28,7 +25,11 @@ function renderLists() {
             <label id="${task.id}">
               <input type="checkbox" id="${task.id}" />
               ${task.title}
-            </label>`;
+            </label>
+            <button class="delete__button" onclick="hendlerDeleteTodo(${task.id})">
+              <img src="./assets/icons8-trash-can-96.png" alt="Кнопка удаления задачи">
+            </button>
+            `;
     page.todo.list.appendChild(element)
     } else {
     element.classList.add('todo__item')
@@ -38,8 +39,11 @@ function renderLists() {
 <label>
   <input type="checkbox" id="${task.id}" checked />
   ${task.title}
-</label>`
-    
+</label>
+  <button class="delete__button" onclick="hendlerDeleteTodo(${task.id})">
+      <img src="./assets/icons8-trash-can-96.png" alt="Кнопка удаления задачи">
+  </button>
+`
     page.done.list.appendChild(element)
 
     };
@@ -51,6 +55,7 @@ function setupEventListeners() {
   page.todo.list.addEventListener('click', handleCheckboxClick);
   page.done.list.addEventListener('click', handleCheckboxClick);
 }
+
 function handleCheckboxClick(event) {
   console.log(event)
   if(event.target.type === 'checkbox') {
@@ -62,39 +67,35 @@ function handleCheckboxClick(event) {
   }
 }
 
-export async function addTodo(title) {
-  try {
-    const response = await fetch('http://localhost:3000/todos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ title: title }) // Отправляем только title
-    });
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    
-    return await response.json(); // Возвращаем созданную задачу
-  } catch (error) {
-    console.error('Ошибка добавления задачи:', error);
-    throw error;
-  }
+
+window.hendlerDeleteTodo = function(taskId) {
+  deleteTodo(taskId);
+  tasks.splice(taskId - 1, 1)
 }
+
 
 const todo_form = document.querySelector('.todo__form')
 const todo_input = document.querySelector('.todo__input')
-const todo_button = document.querySelector('.todo_button')
-todo_form.addEventListener('submit', (e) => e.preventDefault())
-todo_button.addEventListener('click', headerAddTask)
-function headerAddTask(event) {
 
+// todo_form.addEventListener('submit', (e) => {
+//   e.preventDefault()
+//   }
+// )
+window.headerAddTask = async function(event) {
+  const form = event.target;
+  event.preventDefault();
+  const data = new FormData(form);
+  const newTask = data.get('title');
+  todo_input.value = '';
+  const todo = await addTodo(newTask)
+  tasks.push({id: tasks.length + 1, title: newTask, done: false})
+  rerender();
 }
-console.log(todo_form)
-console.log(todo_input)
-function rerender() {
+
+
+export function rerender() {
   renderLists();
+  console.log('rerender')
 };
 
 (() => {
