@@ -15,7 +15,7 @@ body {
   width: 430px;
   position: relative;
   display: flex;
-justify-content: center;
+  justify-content: center;
   
 }
 header h1 {
@@ -30,10 +30,10 @@ header h1 {
 }
 .todo__group_title {
   font-weight: 600;
-font-size: 12px;
-letter-spacing: 0.04em;
-text-transform: uppercase;
-color: #d1a28b;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d1a28b;
   padding: 0 16px;
 }
 .todo__item {
@@ -94,8 +94,8 @@ input[type="checkbox"]:checked {
 }
 .todo__form input::placeholder {
   font-weight: 500;
-font-size: 16px;
-color: #222;
+  font-size: 16px;
+  color: #222;
 }
 .todo__form button {
   border-radius: 12px;
