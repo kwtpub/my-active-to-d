@@ -1,5 +1,7 @@
 "use strict";
 import { getTodos, setTodos, updateTodo, addTodo, deleteTodo} from "./module/storage.js";
+import {hendlerDeleteTodo, headerAddTask} from "./module/to-do.js"
+export const tasks = await getTodos();
 
 const page = {
   todo: {
@@ -10,10 +12,11 @@ const page = {
     list: document.querySelector('.done__list')
   }
 }
-const tasks =  await getTodos();
+
+window.hendlerDeleteTodo = hendlerDeleteTodo
+window.headerAddTask = headerAddTask
 
 function renderLists() {
-
   page.todo.list.innerHTML = "";
   page.done.list.innerHTML = "";
   for (const task of tasks) {
@@ -56,8 +59,9 @@ function setupEventListeners() {
   page.done.list.addEventListener('click', handleCheckboxClick);
 }
 
+
+
 function handleCheckboxClick(event) {
-  console.log(event)
   if(event.target.type === 'checkbox') {
     const taskId = Number(event.target.id)
     const task = tasks.find(t => t.id === taskId)
@@ -65,31 +69,6 @@ function handleCheckboxClick(event) {
     rerender();
     updateTodo(task)
   }
-}
-
-
-window.hendlerDeleteTodo = function(taskId) {
-  deleteTodo(taskId);
-  tasks.splice(taskId - 1, 1)
-}
-
-
-const todo_form = document.querySelector('.todo__form')
-const todo_input = document.querySelector('.todo__input')
-
-// todo_form.addEventListener('submit', (e) => {
-//   e.preventDefault()
-//   }
-// )
-window.headerAddTask = async function(event) {
-  const form = event.target;
-  event.preventDefault();
-  const data = new FormData(form);
-  const newTask = data.get('title');
-  todo_input.value = '';
-  const todo = await addTodo(newTask)
-  tasks.push({id: tasks.length + 1, title: newTask, done: false})
-  rerender();
 }
 
 
