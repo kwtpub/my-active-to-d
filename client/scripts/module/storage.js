@@ -1,5 +1,6 @@
 const API_URL = "http://localhost:3000/todos";
 import { rerender } from "../index.js";
+
 export async function getTodos() {
   const res = await fetch(API_URL);     // ждём ответа от сервера
   const todos = await res.json();       // преобразуем JSON в объект/массив

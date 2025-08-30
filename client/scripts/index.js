@@ -1,5 +1,5 @@
 "use strict";
-import { getTodos, setTodos, updateTodo, addTodo, deleteTodo} from "./module/storage.js";
+import { getTodos,updateTodo} from "./module/storage.js";
 import {hendlerDeleteTodo, headerAddTask} from "./module/to-do.js"
 export const tasks = await getTodos();
 
@@ -19,6 +19,7 @@ window.headerAddTask = headerAddTask
 function renderLists() {
   page.todo.list.innerHTML = "";
   page.done.list.innerHTML = "";
+
   for (const task of tasks) {
     const element = document.createElement('div')
     if (!task.done) {
@@ -66,6 +67,7 @@ function handleCheckboxClick(event) {
     const taskId = Number(event.target.id)
     const task = tasks.find(t => t.id === taskId)
     task.done = !task.done;
+
     rerender();
     updateTodo(task)
   }
@@ -81,3 +83,5 @@ export function rerender() {
   rerender();
   setupEventListeners();
 })();
+
+
