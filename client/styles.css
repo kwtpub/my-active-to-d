@@ -16,6 +16,8 @@ body {
   position: relative;
   display: flex;
   justify-content: center;
+  border-radius: 6px;
+  
   
 }
 header h1 {
