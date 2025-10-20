@@ -1,12 +1,42 @@
 [
   {
-    "id": 1,
-    "title": "Add Readme My active to-do",
+    "id": 6,
+    "title": "Пройти блок в Purpleschool",
+    "done": true
+  },
+  {
+    "id": 7,
+    "title": "Сверстать два блока в mister berg",
     "done": false
   },
   {
-    "id": 3,
-    "title": "Learn JS",
+    "id": 8,
+    "title": "Найти дизайн для персонального сайта с ценами ",
+    "done": true
+  },
+  {
+    "id": 9,
+    "title": "Написать художнику с оффером ",
+    "done": true
+  },
+  {
+    "id": 10,
+    "title": "Повторить весь блок по китайскому + записать в тетрадь",
+    "done": false
+  },
+  {
+    "id": 11,
+    "title": "Построить график функции по мат анализу",
+    "done": false
+  },
+  {
+    "id": 12,
+    "title": "Начертить без ошибок чертеж 23 ",
+    "done": false
+  },
+  {
+    "id": 13,
+    "title": "настроить nvim под c++",
     "done": true
   }
 ]

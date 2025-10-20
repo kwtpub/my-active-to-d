@@ -1,16 +1,15 @@
 {
   "name": "my-active-to-do",
   "version": "1.0.0",
-  "description": "",
+  "description": "Active To-Do App",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "echo 'Build completed - static files ready'",
+    "dev": "python3 -m http.server 8080",
+    "start": "python3 -m http.server 8080"
   },
-  "keywords": [],
+  "keywords": ["todo", "productivity", "task-management"],
   "author": "",
   "license": "ISC",
-  "type": "module",
-  "dependencies": {
-    "fs": "^0.0.1-security"
-  }
+  "type": "module"
 }

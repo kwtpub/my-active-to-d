@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/todos";
+import { API_URL } from "../config.js";
 import { rerender } from "../index.js";
 
 export async function getTodos() {
@@ -8,7 +8,7 @@ export async function getTodos() {
 }
 // Сохранение всех задач
 export async function setTodos(todos) {
-  const response = await fetch('http://localhost:3000/todos', {
+  const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function setTodos(todos) {
 
 // Обновление одной задачи
 export async function updateTodo(todo) {
-  const response = await fetch(`http://localhost:3000/todos/${todo.id}`, {
+  const response = await fetch(`${API_URL}/${todo.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function updateTodo(todo) {
 }
 
 export async function addTodo(title) {
-    const response = await fetch('http://localhost:3000/todos', {
+    const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export async function addTodo(title) {
 }
 
 export async function deleteTodo(taskId) {
-  const response = await fetch(`http://localhost:3000/todos/${taskId}`, {
+  const response = await fetch(`${API_URL}/${taskId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

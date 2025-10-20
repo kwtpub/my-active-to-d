@@ -1,0 +1,27 @@
+{
+  "name": "my-active-to-do",
+  "version": "1.0.0",
+  "description": "Всем привет, в рамках обучения я решил улучшить свои ежедневные заметки задачь, т.к меня не устраивали to-do листы на других платформах.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    	"start": "concurrently \"live-server client\" \"node server/server.js\"" 
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwtpub/my-active-to-d.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kwtpub/my-active-to-d/issues"
+  },
+  "homepage": "https://github.com/kwtpub/my-active-to-d#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
