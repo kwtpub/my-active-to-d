@@ -2,7 +2,7 @@
 
 *script: либо сервера криво работают, на телефоне сохранил - на пк нету таски. Либо просто большая и бесполезная нагроможденность*
 
-![Image alt](https://github.com/kwtpub/my-active-to-d/raw/main/image/prewiev.png)
+<img src="https://github.com/kwtpub/my-active-to-d/raw/main/image/prewiev.png" alt="Image alt" width="400"/>
 
 В рамках проекта хочу добавить фичи:
 - Буфер прошлых дней - Все не сделанные задачи из прошлого дня будут перекидываться на следующий день с пометкой откуда они взялись
