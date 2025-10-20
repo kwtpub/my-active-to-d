@@ -1,9 +1,5 @@
 // Netlify Function для работы с задачами
-const fs = require('fs');
-const path = require('path');
-
-// Путь к файлу данных
-const DATA_FILE = path.join(__dirname, '..', '..', 'server', 'data.json');
+import fs from 'fs';
 
 // CORS headers
 const corsHeaders = {
@@ -12,7 +8,28 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
 };
 
-exports.handler = async (event, context) => {
+// Путь к файлу данных в /tmp (единственное место где можно писать в Netlify Functions)
+const DATA_FILE = '/tmp/data.json';
+
+// Инициализация данных
+const initializeData = () => {
+  if (!fs.existsSync(DATA_FILE)) {
+    const initialData = [
+      { id: 1, title: "Create icons for a dashboard", done: true },
+      { id: 2, title: "Prepare a design presentation", done: false },
+      { id: 3, title: "Stretch for 15 minutes", done: false },
+      { id: 4, title: "Plan your meal", done: false },
+      { id: 5, title: "Review daily goals before sleeping. Add some new if time permits", done: false },
+      { id: 6, title: "Water indoor plants", done: true }
+    ];
+    fs.writeFileSync(DATA_FILE, JSON.stringify(initialData, null, 2));
+  }
+};
+
+export const handler = async (event, context) => {
+  // Инициализируем данные
+  initializeData();
+  
   // Обработка preflight OPTIONS запросов
   if (event.httpMethod === 'OPTIONS') {
     return {
@@ -24,7 +41,7 @@ exports.handler = async (event, context) => {
 
   try {
     // GET /todos - получение всех задач
-    if (event.httpMethod === 'GET' && event.path === '/todos') {
+    if (event.httpMethod === 'GET') {
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
       return {
         statusCode: 200,
@@ -37,7 +54,7 @@ exports.handler = async (event, context) => {
     }
 
     // POST /todos - создание новой задачи
-    if (event.httpMethod === 'POST' && event.path === '/todos') {
+    if (event.httpMethod === 'POST') {
       const newTodo = JSON.parse(event.body);
       
       // Читаем текущие задачи
@@ -71,8 +88,8 @@ exports.handler = async (event, context) => {
     }
 
     // PUT /todos/:id - обновление задачи
-    if (event.httpMethod === 'PUT' && event.path.startsWith('/todos/')) {
-      const id = event.path.split('/')[2];
+    if (event.httpMethod === 'PUT') {
+      const id = event.path.split('/').pop();
       const updatedTodo = JSON.parse(event.body);
       
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
@@ -104,8 +121,8 @@ exports.handler = async (event, context) => {
     }
 
     // DELETE /todos/:id - удаление задачи
-    if (event.httpMethod === 'DELETE' && event.path.startsWith('/todos/')) {
-      const id = event.path.split('/')[2];
+    if (event.httpMethod === 'DELETE') {
+      const id = event.path.split('/').pop();
       
       const data = fs.readFileSync(DATA_FILE, 'utf-8');
       const todos = JSON.parse(data);
@@ -139,14 +156,14 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Если маршрут не найден
+    // Если метод не поддерживается
     return {
-      statusCode: 404,
+      statusCode: 405,
       headers: {
         'Content-Type': 'application/json',
         ...corsHeaders
       },
-      body: JSON.stringify({ error: 'Not Found' })
+      body: JSON.stringify({ error: 'Method not allowed' })
     };
 
   } catch (error) {
